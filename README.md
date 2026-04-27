@@ -18,14 +18,14 @@ Working with deep operating system telemetry presented several critical challeng
 * **Data Sparsity:** A relatively small training dataset of approximately 6,000 rows.
 * **Skewed Distributions:** Highly right-skewed metrics (e.g., exponential read/write ratios).
 * **Missing Telemetry:** Null values in critical kernel parameters like `runqsz` (run queue size) and `freemem` (free memory).
-* **Inconsistent Target Variance:** The target variable (`usr`) exhibited wildly shifting variance across different system states. For instance, `critical` systems maintained a tight standard deviation of just 1.20, whereas `low` states were highly chaotic with a standard deviation of 26.71.
+* **Inconsistent Target Variance:** The target variable (`usr`) exhibited wildly shifting variance across different system states. For instance, `critical` systems maintained a tight standard deviation of just 1.19, whereas `low` states were highly chaotic with a standard deviation of 26.63.
 
 ## 🚀 Our Winning Solution: The Optimal Hybrid Architecture
 Standard global regression models failed to capture the rigid boundaries and shifting variances of the dataset. We engineered an adaptive **"Optimal Hybrid"** pipeline to systematically conquer these topological challenges.
 
 ### 1. Lossless Algebraic Imputation
-Instead of relying on statistical median imputation (which introduces geometric distortion/noise), we reverse-engineered the system's generation logic. We perfectly recovered missing memory data using deterministic algebraic relationships:
-`memory_pressure = runqsz / (freemem + 1)`
+Instead of relying on statistical median imputation (which introduces geometric distortion/noise), we reverse-engineered the system's generation logic. We perfectly recovered missing memory data by transposing deterministic algebraic relationships. For example, to find missing queue sizes: 
+`runqsz = memory_pressure * (freemem + 1)`
 
 ### 2. Defensive Feature Engineering
 * **Log-Transformations:** Applied `np.log1p()` across all heavily right-skewed telemetry to prevent extreme tails from dominating the gradient updates.
@@ -46,7 +46,7 @@ All architecture, feature engineering, and modeling code is contained within the
 
 1. Clone this repository.
 2. Install dependencies (e.g., `lightgbm`, `scikit-learn`, `pandas`, `numpy`).
-3. Run the complete pipeline via the notebook:
+3. Change the paths of the datasets and Run the complete pipeline via the notebook:
    `ModelForge_Winning_Solution.ipynb`
 
 ---

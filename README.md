@@ -8,7 +8,7 @@
 **Team Name:** Random Forest Rangers  
 **Team Members:** Divyansh Chhajer (Lead) & Somshubhro Guha  
 **Event:** [ModelForge Machine Learning Championship](https://www.kaggle.com/competitions/model-forge-dakshh-finale) (Dakshh Tech Fest, Heritage Institute of Technology, Kolkata)  
-**Final Result:** 3rd Place (Final RMSE: 2.23443)  
+**Final Result:** 3rd Place (Final Leaderboard RMSE: 2.23443)  
 
 ## 📌 Project Objective
 The objective of this competition was to predict the **CPU user-time percentage (`usr`)** based on multi-user computing environment telemetry, including system calls, memory activity, and I/O rates.
@@ -24,8 +24,11 @@ Working with deep operating system telemetry presented several critical challeng
 Standard global regression models failed to capture the rigid boundaries and shifting variances of the dataset. We engineered an adaptive **"Optimal Hybrid"** pipeline to systematically conquer these topological challenges.
 
 ### 1. Lossless Algebraic Imputation
-Instead of relying on statistical median imputation (which introduces geometric distortion/noise), we reverse-engineered the system's generation logic. We perfectly recovered missing memory data by transposing deterministic algebraic relationships. For example, to find missing queue sizes: 
+Instead of relying solely on median imputation, we leveraged stable algebraic relationships between system metrics to reconstruct missing values where possible. For example:
+
 `runqsz = memory_pressure * (freemem + 1)`
+
+By rearranging such relationships, we estimated missing values from related observed variables, reducing dependence on purely statistical imputations.
 
 ### 2. Defensive Feature Engineering
 * **Log-Transformations:** Applied `np.log1p()` across all heavily right-skewed telemetry to prevent extreme tails from dominating the gradient updates.
@@ -45,8 +48,8 @@ We applied rigid physical system constraints to the model's final predictions:
 All architecture, feature engineering, and modeling code is contained within the main Jupyter Notebook.
 
 1. Clone this repository.
-2. Install dependencies (e.g., `lightgbm`, `scikit-learn`, `pandas`, `numpy`).
-3. Change the paths of the datasets and Run the complete pipeline via the notebook:
+2. Install dependencies (e.g., `lightgbm`, `sklearn`, `pandas`, `numpy`, `matplotlib`).
+3. Run the complete pipeline via the notebook:
    `ModelForge_Winning_Solution.ipynb`
 
 ---
